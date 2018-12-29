@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/jforcode/DeepError"
+	"github.com/jforcode/Go-DeepError"
 )
 
 type IDbUtil interface {
