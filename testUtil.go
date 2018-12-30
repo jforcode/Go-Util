@@ -20,13 +20,13 @@ type testUtil struct {
 
 func (testUtil *testUtil) AssertEquals(t *testing.T, expected, actual interface{}, errorMsg string) {
 	if !cmp.Equal(expected, actual) {
-		t.Errorf("Error: %s\nExpected: %+v\nActual: %+v", errorMsg, expected, actual)
+		t.Fatalf("Error: %s\nExpected: %+v\nActual: %+v", errorMsg, expected, actual)
 	}
 }
 
 func (testUtil *testUtil) HandleIfTestError(t *testing.T, err error, errorMsg string) {
 	if err != nil {
-		t.Errorf("Error: %s\n%s", errorMsg, err.Error())
+		t.Fatalf("Error: %s\n%s", errorMsg, err.Error())
 	}
 }
 
@@ -38,13 +38,22 @@ func (testUtil *testUtil) AssertJSONEquals(t *testing.T, expected, actual, error
 		testUtil.HandleIfTestError(t, fmt.Errorf("Invalid actual JSON: %s", actual), errorMsg)
 	}
 
+	byteExpected := []byte(expected)
+	byteActual := []byte(actual)
+
 	compactExpected := bytes.NewBuffer([]byte{})
-	err := json.Compact(compactExpected, []byte(expected))
-	testUtil.HandleIfTestError(t, err, fmt.Sprintf("Couldn't compact expected JSON: %s", expected))
-
 	compactActual := bytes.NewBuffer([]byte{})
-	err = json.Compact(compactActual, []byte(actual))
-	testUtil.HandleIfTestError(t, err, fmt.Sprintf("Couldn't compact actual JSON: %s", actual))
+	indentedExpected := bytes.NewBuffer([]byte{})
+	indentedActual := bytes.NewBuffer([]byte{})
 
-	testUtil.AssertEquals(t, compactExpected.String(), compactActual.String(), "JSON assertion failed")
+	// ignoring errors here, as already checked for validity.
+	// will refactor, if found some other causes of error
+	json.Compact(compactExpected, byteExpected)
+	json.Compact(compactActual, byteActual)
+	json.Indent(indentedExpected, byteExpected, "", "  ")
+	json.Indent(indentedActual, byteActual, "", "  ")
+
+	if compactExpected.String() != compactActual.String() {
+		t.Fatalf("Error: JSON Assertion failed\nExpected JSON: \n%s\nActual JSON: \n%s\nExpected compact JSON: \n%s\nActual compact JSON: \n%s\n", indentedExpected, indentedActual, compactExpected, compactActual)
+	}
 }
