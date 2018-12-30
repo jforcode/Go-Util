@@ -17,9 +17,9 @@ type IDbUtil interface {
 	CompareDbData(db *sql.DB, query string, args []interface{}, numCols int, expected [][]string, debug bool) (bool, error)
 }
 
-type DbUtil struct{}
+type dbUtil struct{}
 
-func (dbUtil *DbUtil) GetDb(user, password, host, database string, flagsMap map[string]string) (*sql.DB, error) {
+func (dbUtil *dbUtil) GetDb(user, password, host, database string, flagsMap map[string]string) (*sql.DB, error) {
 	fnName := "util.DbUtil.GetDb"
 
 	flags := make([]string, len(flagsMap))
@@ -56,7 +56,7 @@ func (dbUtil *DbUtil) GetDb(user, password, host, database string, flagsMap map[
 }
 
 // TODO: where and params
-func (dbUtil *DbUtil) ClearTables(db *sql.DB, tables ...string) error {
+func (dbUtil *dbUtil) ClearTables(db *sql.DB, tables ...string) error {
 	fnName := "util.DbUtil.ClearTables"
 
 	for _, table := range tables {
@@ -75,7 +75,7 @@ func (dbUtil *DbUtil) ClearTables(db *sql.DB, tables ...string) error {
 	return nil
 }
 
-func (dbUtil *DbUtil) GetRowCount(db *sql.DB, table string, where string, params []interface{}) (int, error) {
+func (dbUtil *dbUtil) GetRowCount(db *sql.DB, table string, where string, params []interface{}) (int, error) {
 	fnName := "util.dbUtil.AssertRowCount"
 
 	query := "SELECT COUNT(*) FROM " + table
@@ -101,7 +101,7 @@ func (dbUtil *DbUtil) GetRowCount(db *sql.DB, table string, where string, params
 	return count, nil
 }
 
-func (dbUtil *DbUtil) PrepareAndExec(db *sql.DB, query string, parameters ...interface{}) (sql.Result, error) {
+func (dbUtil *dbUtil) PrepareAndExec(db *sql.DB, query string, parameters ...interface{}) (sql.Result, error) {
 	fnName := "util.dbUtil.PrepareAndExec"
 
 	stmt, err := db.Prepare(query)
@@ -117,7 +117,7 @@ func (dbUtil *DbUtil) PrepareAndExec(db *sql.DB, query string, parameters ...int
 	return res, nil
 }
 
-func (dbUtil *DbUtil) CompareDbData(db *sql.DB, query string, args []interface{}, numCols int, expected [][]string, debug bool) (bool, error) {
+func (dbUtil *dbUtil) CompareDbData(db *sql.DB, query string, args []interface{}, numCols int, expected [][]string, debug bool) (bool, error) {
 	fn := "CompareDbData"
 	rows, err := db.Query(query, args...)
 	if err != nil {

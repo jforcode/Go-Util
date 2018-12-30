@@ -1,7 +1,8 @@
 package util
 
 var (
-	Db    IDbUtil    = &DbUtil{}
-	Array IArrayUtil = &ArrayUtil{}
-	Math  IMathUtil  = &MathUtil{}
+	Db    IDbUtil    = &dbUtil{}
+	Array IArrayUtil = &arrayUtil{}
+	Math  IMathUtil  = &mathUtil{}
+	Test  ITestUtil  = &testUtil{}
 )

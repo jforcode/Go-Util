@@ -3,7 +3,7 @@ package util
 import "testing"
 
 func TestIsEmptyStringArray(t *testing.T) {
-	arrUtil := &ArrayUtil{}
+	arrUtil := &arrayUtil{}
 
 	tests := []struct {
 		name     string

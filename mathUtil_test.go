@@ -3,7 +3,7 @@ package util
 import "testing"
 
 func TestMinInt(t *testing.T) {
-	mathUtil := &MathUtil{}
+	mathUtil := &mathUtil{}
 
 	tests := []struct {
 		name     string

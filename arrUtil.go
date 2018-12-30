@@ -4,8 +4,8 @@ type IArrayUtil interface {
 	IsEmptyStringArray(arr []string) bool
 }
 
-type ArrayUtil struct{}
+type arrayUtil struct{}
 
-func (arrUtil *ArrayUtil) IsEmptyStringArray(arr []string) bool {
+func (arrUtil *arrayUtil) IsEmptyStringArray(arr []string) bool {
 	return arr == nil || len(arr) == 0
 }

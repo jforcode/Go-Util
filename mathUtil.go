@@ -4,9 +4,9 @@ type IMathUtil interface {
 	MinInt(a, b int) int
 }
 
-type MathUtil struct{}
+type mathUtil struct{}
 
-func (mathUtil *MathUtil) MinInt(a, b int) int {
+func (mathUtil *mathUtil) MinInt(a, b int) int {
 	if a <= b {
 		return a
 	} else {
